@@ -16,6 +16,10 @@ import VocabularyDictionaryScreen from './components/VocabularyDictionaryScreen'
 import GrammarDictionaryScreen from './components/GrammarDictionaryScreen';
 import KanjiDictionaryScreen from './components/KanjiDictionaryScreen';
 import TranslationDictionaryScreen from './components/TranslationDictionaryScreen';
+import ProfileScreen from './components/ProfileScreen';
+import StudyScreen from './components/StudyScreen';
+import StudyNotebookScreen from './components/StudyNotebookScreen';
+import StudyDetailScreen from './components/StudyDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +65,10 @@ export default function App() {
           <Stack.Screen name="GrammarDictionary" component={GrammarDictionaryScreen} />
           <Stack.Screen name="KanjiDictionary" component={KanjiDictionaryScreen} />
           <Stack.Screen name="TranslationDictionary" component={TranslationDictionaryScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Study" component={StudyScreen} />
+          <Stack.Screen name="StudyNotebook" component={StudyNotebookScreen} />
+          <Stack.Screen name="StudyDetail" component={StudyDetailScreen} />
         </Stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>

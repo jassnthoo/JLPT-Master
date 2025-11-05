@@ -12,6 +12,7 @@ import BottomNavigation from './BottomNavigation';
 
 export default function ProfileScreen({ navigation }) {
   const [activeTab, setActiveTab] = useState('profile');
+  const [currentLanguage, setCurrentLanguage] = useState('vi');
 
   const handleTabPress = (tabId) => {
     setActiveTab(tabId);
@@ -27,49 +28,59 @@ export default function ProfileScreen({ navigation }) {
     }
   };
 
-  const studyLevels = [
-    { level: 'N3', color: '#FF9FAD', icon: 'book' },
-    { level: 'N4', color: '#FFB347', icon: 'book' },
-    { level: 'N5', color: '#98FB98', icon: 'book' },
+  const toggleLanguage = () => {
+    setCurrentLanguage(currentLanguage === 'vi' ? 'jp' : 'vi');
+  };
+
+  const studyProgress = [
+    { name: 'Từ vựng N3', color: '#FF9FAD' },
+    { name: 'Kanji N4', color: '#4ECDC4' },
+    { name: 'Ngữ pháp N3', color: '#9B59B6' },
+    { name: 'Đọc hiểu N4', color: '#F39C12' },
+    { name: 'Nghe hiểu N5', color: '#3498DB' },
+    { name: 'Thi JLPT N5', color: '#E67E22' }
   ];
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
           <Ionicons name="chevron-back" size={24} color="#333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Tài khoản người học</Text>
-        <View style={{ width: 24 }} />
       </View>
 
       <ScrollView style={styles.content}>
         {/* User Info */}
         <View style={styles.userSection}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={40} color="#666" />
+          <View style={styles.avatarContainer}>
+            <View style={styles.avatar}>
+              <Ionicons name="person" size={40} color="#999" />
+            </View>
           </View>
-          <View style={styles.userInfo}>
-            <Text style={styles.userName}>Nguyễn Văn A</Text>
-            <Text style={styles.userStatus}>Thành viên tài khoản</Text>
-          </View>
-          <TouchableOpacity>
-            <Ionicons name="chevron-forward" size={20} color="#999" />
-          </TouchableOpacity>
+          <Text style={styles.userName}>Nguyễn Văn A</Text>
+          <Text style={styles.userStatus}>Thông tin tài khoản</Text>
         </View>
 
         {/* Menu Items */}
         <View style={styles.menuSection}>
           <TouchableOpacity style={styles.menuItem}>
-            <Ionicons name="bookmark" size={20} color="#4ECDC4" />
-            <Text style={styles.menuText}>Lưu trữ yêu thích</Text>
+            <View style={styles.menuItemLeft}>
+              <Ionicons name="heart-outline" size={24} color="#4ECDC4" />
+              <Text style={styles.menuItemText}>Lưu trữ yêu thích</Text>
+            </View>
             <Ionicons name="chevron-forward" size={20} color="#999" />
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.menuItem}>
-            <Ionicons name="settings" size={20} color="#4ECDC4" />
-            <Text style={styles.menuText}>Cài đặt chung</Text>
+            <View style={styles.menuItemLeft}>
+              <Ionicons name="settings-outline" size={24} color="#4ECDC4" />
+              <Text style={styles.menuItemText}>Cài đặt chung</Text>
+            </View>
             <Ionicons name="chevron-forward" size={20} color="#999" />
           </TouchableOpacity>
 
@@ -77,30 +88,26 @@ export default function ProfileScreen({ navigation }) {
             style={styles.menuItem}
             onPress={() => navigation.navigate('StudyNotebook')}
           >
-            <Ionicons name="library" size={20} color="#4ECDC4" />
-            <Text style={styles.menuText}>Sổ tay học tập</Text>
+            <View style={styles.menuItemLeft}>
+              <Ionicons name="book-outline" size={24} color="#4ECDC4" />
+              <Text style={styles.menuItemText}>Sổ tay học tập</Text>
+            </View>
             <Ionicons name="chevron-forward" size={20} color="#999" />
           </TouchableOpacity>
         </View>
 
-        {/* Study Levels */}
-        <View style={styles.levelsSection}>
-          <Text style={styles.sectionTitle}>Cấp độ học tập</Text>
-          <View style={styles.levelsGrid}>
-            {studyLevels.map((item, index) => (
-              <TouchableOpacity key={index} style={[styles.levelCard, { backgroundColor: item.color }]}>
-                <Text style={styles.levelText}>{item.level}</Text>
+        {/* Study Progress */}
+        <View style={styles.progressSection}>
+          <Text style={styles.progressTitle}>Tiến độ học tập</Text>
+          <View style={styles.progressGrid}>
+            {studyProgress.map((item, index) => (
+              <TouchableOpacity 
+                key={index} 
+                style={[styles.progressItem, { backgroundColor: item.color }]}
+              >
+                <Text style={styles.progressItemText}>{item.name}</Text>
               </TouchableOpacity>
             ))}
-            <TouchableOpacity style={[styles.levelCard, styles.levelCardDisabled]}>
-              <Text style={styles.levelTextDisabled}>Kanji N4</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.levelCard, styles.levelCardDisabled]}>
-              <Text style={styles.levelTextDisabled}>Nghe Hiểu N5</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.levelCard, styles.levelCardDisabled]}>
-              <Text style={styles.levelTextDisabled}>Thi JLPT N5</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -114,50 +121,48 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F5F5',
+    backgroundColor: '#F8F9FA',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: '#E8F5F5',
   },
+  backButton: {
+    marginRight: 15,
+  },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
   content: {
     flex: 1,
-    backgroundColor: 'white',
   },
   userSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
     backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    alignItems: 'center',
+    paddingVertical: 30,
+    marginBottom: 20,
+  },
+  avatarContainer: {
+    marginBottom: 15,
   },
   avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     backgroundColor: '#F0F0F0',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 15,
-  },
-  userInfo: {
-    flex: 1,
   },
   userName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 4,
+    marginBottom: 5,
   },
   userStatus: {
     fontSize: 14,
@@ -165,58 +170,53 @@ const styles = StyleSheet.create({
   },
   menuSection: {
     backgroundColor: 'white',
-    marginTop: 10,
+    marginBottom: 20,
   },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 18,
     borderBottomWidth: 1,
     borderBottomColor: '#F0F0F0',
   },
-  menuText: {
-    flex: 1,
+  menuItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  menuItemText: {
     fontSize: 16,
     color: '#333',
     marginLeft: 15,
   },
-  levelsSection: {
+  progressSection: {
     backgroundColor: 'white',
-    marginTop: 10,
     padding: 20,
   },
-  sectionTitle: {
-    fontSize: 16,
+  progressTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 15,
+    marginBottom: 20,
   },
-  levelsGrid: {
+  progressGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  levelCard: {
-    width: '30%',
+  progressItem: {
+    width: '48%',
     paddingVertical: 15,
     paddingHorizontal: 10,
-    borderRadius: 8,
-    alignItems: 'center',
+    borderRadius: 12,
     marginBottom: 10,
+    alignItems: 'center',
   },
-  levelCardDisabled: {
-    backgroundColor: '#F0F0F0',
-  },
-  levelText: {
+  progressItemText: {
+    color: 'white',
     fontSize: 14,
     fontWeight: 'bold',
-    color: 'white',
-  },
-  levelTextDisabled: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#999',
     textAlign: 'center',
   },
 });

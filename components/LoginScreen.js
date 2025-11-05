@@ -46,17 +46,6 @@ export default function LoginScreen({ navigation }) {
           <View style={styles.content}>
             <Text style={styles.title}>Đăng nhập</Text>
 
-            {/* Illustration */}
-            <View style={styles.illustrationContainer}>
-              <View style={styles.illustration}>
-                <View style={styles.personIllustration}>
-                  <View style={styles.personHead} />
-                  <View style={styles.personBody} />
-                  <View style={styles.personArm1} />
-                  <View style={styles.personArm2} />
-                </View>
-              </View>
-            </View>
 
             {/* Form */}
             <View style={styles.form}>
@@ -65,13 +54,36 @@ export default function LoginScreen({ navigation }) {
                 <Ionicons name="mail-outline" size={20} color="#999" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
-                  placeholder="hihi@gmail.com"
+                  placeholder="Email"
                   value={email}
                   onChangeText={setEmail}
                   keyboardType="email-address"
                   autoCapitalize="none"
                   placeholderTextColor="#999"
                 />
+              </View>
+
+              {/* Password Input */}
+              <View style={styles.inputContainer}>
+                <Ionicons name="lock-closed-outline" size={20} color="#999" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Mật khẩu"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
+                  placeholderTextColor="#999"
+                />
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                  style={styles.eyeIcon}
+                >
+                  <Ionicons
+                    name={showPassword ? "eye-outline" : "eye-off-outline"}
+                    size={20}
+                    color="#999"
+                  />
+                </TouchableOpacity>
               </View>
 
               {/* Forgot Password Link */}
@@ -170,54 +182,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     textAlign: 'center',
-    marginBottom: 30,
-  },
-  illustrationContainer: {
-    alignItems: 'center',
     marginBottom: 40,
-  },
-  illustration: {
-    width: 120,
-    height: 120,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  personIllustration: {
-    position: 'relative',
-  },
-  personHead: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFB6C1',
-    marginBottom: 5,
-  },
-  personBody: {
-    width: 60,
-    height: 80,
-    backgroundColor: '#FF9FAD',
-    borderRadius: 30,
-    position: 'relative',
-  },
-  personArm1: {
-    position: 'absolute',
-    width: 20,
-    height: 40,
-    backgroundColor: '#FF9FAD',
-    borderRadius: 10,
-    top: 45,
-    left: -15,
-    transform: [{ rotate: '20deg' }],
-  },
-  personArm2: {
-    position: 'absolute',
-    width: 20,
-    height: 40,
-    backgroundColor: '#FF9FAD',
-    borderRadius: 10,
-    top: 45,
-    right: -15,
-    transform: [{ rotate: '-20deg' }],
   },
   form: {
     marginBottom: 30,
@@ -246,6 +211,9 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: '#333',
+  },
+  eyeIcon: {
+    padding: 5,
   },
   forgotPasswordContainer: {
     alignItems: 'flex-end',

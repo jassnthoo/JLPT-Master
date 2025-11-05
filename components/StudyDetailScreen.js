@@ -12,7 +12,7 @@ import BottomNavigation from './BottomNavigation';
 
 export default function StudyDetailScreen({ navigation, route }) {
   const [activeTab, setActiveTab] = useState('study');
-  const { category = 'Từ vựng', level = 'N5' } = route.params || {};
+  const { category } = route.params || { category: 'Từ vựng' };
 
   const handleTabPress = (tabId) => {
     setActiveTab(tabId);
@@ -28,144 +28,158 @@ export default function StudyDetailScreen({ navigation, route }) {
     }
   };
 
-  const studyProgress = {
-    'N5': {
+  const levelData = [
+    {
+      level: 'N5',
       status: 'completed',
-      lessons: 25,
-      totalLessons: 25,
-      words: 250,
-      totalWords: 250,
+      totalWords: 2525,
+      completedWords: 250,
       progress: 100,
-      color: '#4CAF50'
+      color: '#4ECDC4'
     },
-    'N4': {
-      status: 'in-progress',
-      lessons: 15,
-      totalLessons: 25,
-      words: 50,
-      totalWords: 300,
+    {
+      level: 'N4',
+      status: 'in_progress',
+      totalWords: 1525,
+      completedWords: 50,
       progress: 60,
-      color: '#FF9800'
+      color: '#FF9FAD'
     },
-    'N3': {
-      status: 'in-progress',
-      lessons: 15,
-      totalLessons: 25,
-      words: 50,
-      totalWords: 300,
+    {
+      level: 'N3',
+      status: 'in_progress',
+      totalWords: 1525,
+      completedWords: 50,
       progress: 60,
-      color: '#FF9800'
+      color: '#FF9FAD'
     },
-    'N2': {
+    {
+      level: 'N2',
       status: 'locked',
-      lessons: 0,
-      totalLessons: 30,
-      words: 0,
-      totalWords: 400,
+      totalWords: 0,
+      completedWords: 0,
+      progress: 0,
+      color: '#E0E0E0'
+    },
+    {
+      level: 'N1',
+      status: 'locked',
+      totalWords: 0,
+      completedWords: 0,
       progress: 0,
       color: '#E0E0E0'
     }
+  ];
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'completed':
+        return 'Hoàn thành';
+      case 'in_progress':
+        return 'Đang học';
+      case 'locked':
+        return 'Chưa học';
+      default:
+        return '';
+    }
   };
 
-  const currentProgress = studyProgress[level];
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'completed':
+        return 'checkmark-circle';
+      case 'in_progress':
+        return 'time';
+      case 'locked':
+        return 'lock-closed';
+      default:
+        return 'time';
+    }
+  };
 
-  const renderProgressBar = (progress, color) => (
-    <View style={styles.progressBarContainer}>
-      <View style={[styles.progressBar, { width: `${progress}%`, backgroundColor: color }]} />
-    </View>
-  );
+  const renderLevelItem = (item, index) => (
+    <View key={index} style={styles.levelItem}>
+      <View style={styles.levelHeader}>
+        <View style={styles.levelLeft}>
+          <View style={[styles.levelIcon, { backgroundColor: item.color }]}>
+            <Ionicons 
+              name={getStatusIcon(item.status)} 
+              size={16} 
+              color="white" 
+            />
+          </View>
+          <View style={styles.levelInfo}>
+            <Text style={styles.levelTitle}>{item.level}</Text>
+            <Text style={styles.levelStatus}>{getStatusText(item.status)}</Text>
+          </View>
+        </View>
+        <View style={styles.levelStats}>
+          <Text style={styles.statsText}>Bài đã học</Text>
+          <Text style={styles.statsNumber}>{item.totalWords}</Text>
+          <Text style={styles.statsText}>Thành thạo</Text>
+          <Text style={styles.statsNumber}>{item.completedWords} từ</Text>
+        </View>
+      </View>
+      
+      {item.status !== 'locked' && (
+        <View style={styles.progressContainer}>
+          <View style={styles.progressInfo}>
+            <Text style={styles.progressLabel}>Hoàn thành</Text>
+            <Text style={styles.progressPercent}>{item.progress}%</Text>
+          </View>
+          <View style={styles.progressBar}>
+            <View 
+              style={[
+                styles.progressFill, 
+                { 
+                  width: `${item.progress}%`,
+                  backgroundColor: item.color 
+                }
+              ]} 
+            />
+          </View>
+          <View style={styles.progressStats}>
+            <Text style={styles.progressText}>Từ đã ôn tập</Text>
+            <Text style={styles.progressNumbers}>{item.completedWords}/{item.totalWords}</Text>
+          </View>
+        </View>
+      )}
 
-  const renderLevelCard = (levelKey, data) => {
-    const isCurrentLevel = levelKey === level;
-    return (
-      <TouchableOpacity 
-        key={levelKey}
-        style={[
-          styles.levelCard,
-          isCurrentLevel && styles.currentLevelCard,
-          data.status === 'locked' && styles.lockedLevelCard
-        ]}
-        disabled={data.status === 'locked'}
-        onPress={() => navigation.setParams({ level: levelKey })}
-      >
-        <View style={styles.levelHeader}>
-          <Text style={[
-            styles.levelTitle,
-            isCurrentLevel && styles.currentLevelTitle,
-            data.status === 'locked' && styles.lockedLevelTitle
-          ]}>
-            {levelKey}
-          </Text>
-          <Text style={[
-            styles.levelStatus,
-            data.status === 'completed' && styles.completedStatus,
-            data.status === 'locked' && styles.lockedStatus
-          ]}>
-            {data.status === 'completed' ? 'Hoàn thành' : 
-             data.status === 'in-progress' ? 'Đang học' : 'Chưa mở khóa'}
+      {item.status === 'locked' && (
+        <View style={styles.lockedContainer}>
+          <Text style={styles.lockedText}>
+            Hoàn thành cấp độ trước để mở khóa cấp độ này
           </Text>
         </View>
-        
-        {data.status !== 'locked' && (
-          <>
-            <View style={styles.statsRow}>
-              <Text style={styles.statLabel}>Bài đã học</Text>
-              <Text style={styles.statValue}>{data.lessons}/{data.totalLessons}</Text>
-            </View>
-            <View style={styles.statsRow}>
-              <Text style={styles.statLabel}>Thành thạo</Text>
-              <Text style={styles.statValue}>{data.words} từ</Text>
-            </View>
-            
-            <View style={styles.progressSection}>
-              <Text style={styles.progressLabel}>
-                {data.status === 'completed' ? 'Hoàn thành' : 'Từ đã ôn tập'}
-              </Text>
-              <Text style={styles.progressPercent}>{data.progress}%</Text>
-            </View>
-            {renderProgressBar(data.progress, data.color)}
-            
-            <TouchableOpacity style={[styles.actionButton, { backgroundColor: data.color }]}>
-              <Text style={styles.actionButtonText}>
-                {data.status === 'completed' ? 'Ôn tập' : 'Tiếp tục học'}
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-        
-        {data.status === 'locked' && (
-          <View style={styles.lockedContent}>
-            <Ionicons name="lock-closed" size={24} color="#999" />
-            <Text style={styles.lockedText}>
-              Quay lại học tập Từ vựng cấp độ {levelKey === 'N2' ? 'N3' : 'N4'} trước để mở khóa
-            </Text>
-          </View>
-        )}
-      </TouchableOpacity>
-    );
-  };
+      )}
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
           <Ionicons name="chevron-back" size={24} color="#333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Sổ tay học tập</Text>
-        <View style={{ width: 24 }} />
       </View>
 
       <ScrollView style={styles.content}>
-        {/* Progress Overview */}
-        <View style={styles.overviewSection}>
-          <View style={styles.overviewHeader}>
-            <Ionicons name="analytics" size={20} color="#4ECDC4" />
-            <Text style={styles.overviewTitle}>Theo dõi chi tiết tiến độ từng kỹ năng và cấp độ</Text>
+        {/* Summary */}
+        <View style={styles.summarySection}>
+          <View style={styles.summaryHeader}>
+            <Ionicons name="bar-chart" size={24} color="#4ECDC4" />
+            <Text style={styles.summaryTitle}>
+              Theo dõi chi tiết tiến độ sử dụng kỹ năng và mức độ
+            </Text>
           </View>
         </View>
 
-        {/* Category Header */}
+        {/* Category Title */}
         <View style={styles.categorySection}>
           <View style={styles.categoryHeader}>
             <View style={[styles.categoryIcon, { backgroundColor: '#FF9FAD' }]}>
@@ -173,18 +187,17 @@ export default function StudyDetailScreen({ navigation, route }) {
             </View>
             <View style={styles.categoryInfo}>
               <Text style={styles.categoryTitle}>{category}</Text>
-              <Text style={styles.categorySubtitle}>1 cấp độ hoàn thành • 2 đang học</Text>
+              <Text style={styles.categorySubtitle}>
+                1 cấp độ hoàn thành • 2 đang học
+              </Text>
             </View>
           </View>
-          
-          <Text style={styles.sectionTitle}>Chi tiết các cấp độ</Text>
         </View>
 
-        {/* Level Cards */}
+        {/* Level Details */}
+        <Text style={styles.sectionTitle}>Chi tiết các cấp độ</Text>
         <View style={styles.levelsContainer}>
-          {Object.entries(studyProgress).map(([levelKey, data]) => 
-            renderLevelCard(levelKey, data)
-          )}
+          {levelData.map((item, index) => renderLevelItem(item, index))}
         </View>
       </ScrollView>
 
@@ -197,49 +210,49 @@ export default function StudyDetailScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F5F5',
+    backgroundColor: '#F8F9FA',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: '#E8F5F5',
   },
+  backButton: {
+    marginRight: 15,
+  },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
   },
   content: {
     flex: 1,
-    backgroundColor: 'white',
   },
-  overviewSection: {
+  summarySection: {
     backgroundColor: 'white',
     padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    marginBottom: 20,
   },
-  overviewHeader: {
+  summaryHeader: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  overviewTitle: {
+  summaryTitle: {
     fontSize: 16,
-    color: '#666',
+    color: '#333',
     marginLeft: 10,
     flex: 1,
   },
   categorySection: {
     backgroundColor: 'white',
     padding: 20,
+    marginBottom: 20,
   },
   categoryHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
   },
   categoryIcon: {
     width: 40,
@@ -256,35 +269,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 4,
   },
   categorySubtitle: {
     fontSize: 14,
     color: '#666',
-    marginTop: 2,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
+    paddingHorizontal: 20,
+    marginBottom: 15,
   },
   levelsContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
+    backgroundColor: 'white',
   },
-  levelCard: {
-    backgroundColor: '#F8F9FA',
-    borderRadius: 12,
+  levelItem: {
     padding: 20,
-    marginBottom: 15,
-    borderWidth: 2,
-    borderColor: 'transparent',
-  },
-  currentLevelCard: {
-    borderColor: '#4ECDC4',
-    backgroundColor: '#F0FFFE',
-  },
-  lockedLevelCard: {
-    backgroundColor: '#F5F5F5',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
   },
   levelHeader: {
     flexDirection: 'row',
@@ -292,88 +296,92 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
   },
+  levelLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  levelIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  levelInfo: {
+    
+  },
   levelTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
-  },
-  currentLevelTitle: {
-    color: '#4ECDC4',
-  },
-  lockedLevelTitle: {
-    color: '#999',
+    marginBottom: 2,
   },
   levelStatus: {
     fontSize: 14,
-    color: '#FF9800',
-    fontWeight: '500',
-  },
-  completedStatus: {
-    color: '#4CAF50',
-  },
-  lockedStatus: {
-    color: '#999',
-  },
-  statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  statLabel: {
-    fontSize: 14,
     color: '#666',
   },
-  statValue: {
+  levelStats: {
+    alignItems: 'flex-end',
+  },
+  statsText: {
+    fontSize: 12,
+    color: '#666',
+  },
+  statsNumber: {
     fontSize: 14,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 2,
   },
-  progressSection: {
+  progressContainer: {
+    
+  },
+  progressInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 15,
     marginBottom: 8,
   },
   progressLabel: {
     fontSize: 14,
-    color: '#666',
+    color: '#333',
+    fontWeight: '500',
   },
   progressPercent: {
     fontSize: 14,
     fontWeight: 'bold',
     color: '#333',
   },
-  progressBarContainer: {
-    height: 8,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 4,
-    marginBottom: 15,
-  },
   progressBar: {
+    height: 8,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 4,
+    marginBottom: 8,
+  },
+  progressFill: {
     height: '100%',
     borderRadius: 4,
   },
-  actionButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: 'center',
+  progressStats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  actionButtonText: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
+  progressText: {
+    fontSize: 12,
+    color: '#666',
   },
-  lockedContent: {
-    alignItems: 'center',
-    paddingVertical: 20,
+  progressNumbers: {
+    fontSize: 12,
+    color: '#666',
+  },
+  lockedContainer: {
+    paddingVertical: 10,
   },
   lockedText: {
     fontSize: 14,
     color: '#999',
+    fontStyle: 'italic',
     textAlign: 'center',
-    marginTop: 10,
-    lineHeight: 20,
   },
 });

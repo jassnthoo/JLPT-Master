@@ -56,7 +56,7 @@ export default function RegisterScreen({ navigation }) {
                 <Ionicons name="person-outline" size={20} color="#999" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
-                  placeholder="hihi"
+                  placeholder="Họ tên"
                   value={name}
                   onChangeText={setName}
                   placeholderTextColor="#999"
@@ -68,7 +68,7 @@ export default function RegisterScreen({ navigation }) {
                 <Ionicons name="mail-outline" size={20} color="#999" style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
-                  placeholder="hihi@gmail.com"
+                  placeholder="Email"
                   value={email}
                   onChangeText={setEmail}
                   keyboardType="email-address"

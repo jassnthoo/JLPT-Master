@@ -16,6 +16,7 @@ export default function VocabularyDictionaryScreen({ navigation }) {
   const [searchText, setSearchText] = useState('');
   const [activeTab, setActiveTab] = useState('vocabulary');
   const [selectedCategory, setSelectedCategory] = useState('Từ vựng');
+  const [currentLanguage, setCurrentLanguage] = useState('vi'); // 'vi' for Vietnamese, 'jp' for Japanese
   
   const categories = ['Từ vựng', 'Ngữ pháp', 'Hán tự', 'Dịch câu'];
   
@@ -84,6 +85,10 @@ export default function VocabularyDictionaryScreen({ navigation }) {
     }
   };
 
+  const toggleLanguage = () => {
+    setCurrentLanguage(currentLanguage === 'vi' ? 'jp' : 'vi');
+  };
+
   const renderSearchSuggestion = ({ item }) => (
     <TouchableOpacity 
       style={styles.suggestionItem}
@@ -116,13 +121,37 @@ export default function VocabularyDictionaryScreen({ navigation }) {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <View style={styles.logoContainer}>
-            <View style={styles.logoPlaceholder}>
+            <View style={styles.logo}>
+              {/* Torii Gate */}
+              <View style={styles.toriiContainer}>
+                <View style={styles.toriiTop} />
+                <View style={styles.toriiMiddle} />
+                <View style={styles.toriiPillars}>
+                  <View style={styles.toriiPillar} />
+                  <View style={styles.toriiPillar} />
+                </View>
+              </View>
+              {/* Cherry Blossom */}
+              <View style={styles.sakuraContainer}>
+                <Text style={styles.sakura}>🌸</Text>
+              </View>
+              {/* App Name */}
               <Text style={styles.logoText}>JLPT Master</Text>
             </View>
           </View>
           <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="logo-youtube" size={24} color="#FF0000" />
+            <TouchableOpacity style={styles.iconButton} onPress={toggleLanguage}>
+              {currentLanguage === 'vi' ? (
+                <View style={styles.vietnamFlag}>
+                  <View style={styles.flagRed} />
+                  <Text style={styles.flagStar}>⭐</Text>
+                </View>
+              ) : (
+                <View style={styles.japanFlag}>
+                  <View style={styles.flagWhite} />
+                  <View style={styles.flagRedCircle} />
+                </View>
+              )}
             </TouchableOpacity>
             <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="person-circle-outline" size={28} color="#333" />
@@ -136,7 +165,7 @@ export default function VocabularyDictionaryScreen({ navigation }) {
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
-            placeholder="Nhật Bản, nhịpon, 日本"
+            placeholder="Nhật Bản, nihon, 日本"
             value={searchText}
             onChangeText={setSearchText}
             placeholderTextColor="#999"
@@ -147,7 +176,12 @@ export default function VocabularyDictionaryScreen({ navigation }) {
         </View>
 
         {/* Category Tabs */}
-        <View style={styles.categoryContainer}>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          style={styles.categoryScrollContainer}
+          contentContainerStyle={styles.categoryContainer}
+        >
           {categories.map((category) => (
             <TouchableOpacity
               key={category}
@@ -167,7 +201,7 @@ export default function VocabularyDictionaryScreen({ navigation }) {
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       </View>
 
       {/* Content */}
@@ -249,18 +283,58 @@ const styles = StyleSheet.create({
   logoContainer: {
     flex: 1,
   },
-  logoPlaceholder: {
+  logo: {
     width: 120,
     height: 40,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#4ECDC4',
-    borderRadius: 8,
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  toriiContainer: {
+    position: 'absolute',
+    top: -5,
+    width: 60,
+    height: 25,
+  },
+  toriiTop: {
+    width: 60,
+    height: 4,
+    backgroundColor: '#FF6B9D',
+    borderRadius: 2,
+    marginBottom: 2,
+  },
+  toriiMiddle: {
+    width: 50,
+    height: 3,
+    backgroundColor: '#FF6B9D',
+    borderRadius: 1.5,
+    alignSelf: 'center',
+    marginBottom: 2,
+  },
+  toriiPillars: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+  },
+  toriiPillar: {
+    width: 3,
+    height: 15,
+    backgroundColor: '#FF6B9D',
+    borderRadius: 1.5,
+  },
+  sakuraContainer: {
+    position: 'absolute',
+    top: 5,
+    right: 10,
+  },
+  sakura: {
+    fontSize: 12,
   },
   logoText: {
-    color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
+    color: '#FF6B9D',
+    marginTop: 18,
   },
   headerIcons: {
     flexDirection: 'row',
@@ -268,6 +342,49 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     marginLeft: 15,
+  },
+  vietnamFlag: {
+    width: 28,
+    height: 20,
+    borderRadius: 3,
+    overflow: 'hidden',
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flagRed: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#DA020E',
+  },
+  flagStar: {
+    fontSize: 12,
+    color: '#FFFF00',
+    textAlign: 'center',
+  },
+  japanFlag: {
+    width: 28,
+    height: 20,
+    borderRadius: 3,
+    overflow: 'hidden',
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flagWhite: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  flagRedCircle: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#BC002D',
   },
   headerTitle: {
     fontSize: 24,
@@ -300,25 +417,33 @@ const styles = StyleSheet.create({
   searchButton: {
     padding: 5,
   },
-  categoryContainer: {
-    flexDirection: 'row',
+  categoryScrollContainer: {
     backgroundColor: 'white',
     borderRadius: 25,
+    marginBottom: 15,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
     padding: 4,
+    alignItems: 'center',
   },
   categoryTab: {
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 20,
     alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 36,
+    marginRight: 4,
   },
   activeCategoryTab: {
     backgroundColor: '#4ECDC4',
   },
   categoryText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#666',
+    fontWeight: '500',
+    textAlign: 'center',
   },
   activeCategoryText: {
     color: 'white',

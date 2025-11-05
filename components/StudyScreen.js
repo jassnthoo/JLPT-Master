@@ -12,6 +12,7 @@ import BottomNavigation from './BottomNavigation';
 
 export default function StudyScreen({ navigation }) {
   const [activeTab, setActiveTab] = useState('study');
+  const [currentLanguage, setCurrentLanguage] = useState('vi'); // 'vi' for Vietnamese, 'jp' for Japanese
 
   const handleTabPress = (tabId) => {
     setActiveTab(tabId);
@@ -25,6 +26,10 @@ export default function StudyScreen({ navigation }) {
       default:
         break;
     }
+  };
+
+  const toggleLanguage = () => {
+    setCurrentLanguage(currentLanguage === 'vi' ? 'jp' : 'vi');
   };
 
   const studyCategories = [
@@ -74,10 +79,16 @@ export default function StudyScreen({ navigation }) {
           <TouchableOpacity 
             key={levelIndex} 
             style={[styles.levelButton, { backgroundColor: category.color }]}
-            onPress={() => navigation.navigate('StudyDetail', { 
-              category: category.title, 
-              level: level 
-            })}
+            onPress={() => {
+              if (category.title === 'Ngữ pháp') {
+                navigation.navigate('GrammarLessonList', { level: level });
+              } else {
+                navigation.navigate('StudyDetail', { 
+                  category: category.title, 
+                  level: level 
+                });
+              }
+            }}
           >
             <Text style={styles.levelButtonText}>{category.title} {level}</Text>
           </TouchableOpacity>
@@ -90,18 +101,44 @@ export default function StudyScreen({ navigation }) {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.logoContainer}>
-          <View style={styles.logoPlaceholder}>
-            <Text style={styles.logoText}>JLPT Master</Text>
+        <View style={styles.headerContent}>
+          <View style={styles.logoContainer}>
+            <View style={styles.logo}>
+              {/* Torii Gate */}
+              <View style={styles.toriiContainer}>
+                <View style={styles.toriiTop} />
+                <View style={styles.toriiMiddle} />
+                <View style={styles.toriiPillars}>
+                  <View style={styles.toriiPillar} />
+                  <View style={styles.toriiPillar} />
+                </View>
+              </View>
+              {/* Cherry Blossom */}
+              <View style={styles.sakuraContainer}>
+                <Text style={styles.sakura}>🌸</Text>
+              </View>
+              {/* App Name */}
+              <Text style={styles.logoText}>JLPT Master</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="logo-youtube" size={24} color="#FF0000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
-            <Ionicons name="person-circle-outline" size={28} color="#333" />
-          </TouchableOpacity>
+          <View style={styles.headerIcons}>
+            <TouchableOpacity style={styles.iconButton} onPress={toggleLanguage}>
+              {currentLanguage === 'vi' ? (
+                <View style={styles.vietnamFlag}>
+                  <View style={styles.flagRed} />
+                  <Text style={styles.flagStar}>⭐</Text>
+                </View>
+              ) : (
+                <View style={styles.japanFlag}>
+                  <View style={styles.flagWhite} />
+                  <View style={styles.flagRedCircle} />
+                </View>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton}>
+              <Ionicons name="person-circle-outline" size={28} color="#333" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -126,28 +163,72 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8F5F5',
   },
   header: {
+    backgroundColor: '#E8F5F5',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
+  headerContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#E8F5F5',
+    marginBottom: 15,
   },
   logoContainer: {
     flex: 1,
   },
-  logoPlaceholder: {
+  logo: {
     width: 120,
     height: 40,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#4ECDC4',
-    borderRadius: 8,
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  toriiContainer: {
+    position: 'absolute',
+    top: -5,
+    width: 60,
+    height: 25,
+  },
+  toriiTop: {
+    width: 60,
+    height: 4,
+    backgroundColor: '#FF6B9D',
+    borderRadius: 2,
+    marginBottom: 2,
+  },
+  toriiMiddle: {
+    width: 50,
+    height: 3,
+    backgroundColor: '#FF6B9D',
+    borderRadius: 1.5,
+    alignSelf: 'center',
+    marginBottom: 2,
+  },
+  toriiPillars: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
+  },
+  toriiPillar: {
+    width: 3,
+    height: 15,
+    backgroundColor: '#FF6B9D',
+    borderRadius: 1.5,
+  },
+  sakuraContainer: {
+    position: 'absolute',
+    top: 5,
+    right: 10,
+  },
+  sakura: {
+    fontSize: 12,
   },
   logoText: {
-    color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
+    color: '#FF6B9D',
+    marginTop: 18,
   },
   headerIcons: {
     flexDirection: 'row',
@@ -155,6 +236,49 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     marginLeft: 15,
+  },
+  vietnamFlag: {
+    width: 28,
+    height: 20,
+    borderRadius: 3,
+    overflow: 'hidden',
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flagRed: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#DA020E',
+  },
+  flagStar: {
+    fontSize: 12,
+    color: '#FFFF00',
+    textAlign: 'center',
+  },
+  japanFlag: {
+    width: 28,
+    height: 20,
+    borderRadius: 3,
+    overflow: 'hidden',
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flagWhite: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  flagRedCircle: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#BC002D',
   },
   content: {
     flex: 1,

@@ -20,6 +20,22 @@ import ProfileScreen from './components/ProfileScreen';
 import StudyScreen from './components/StudyScreen';
 import StudyNotebookScreen from './components/StudyNotebookScreen';
 import StudyDetailScreen from './components/StudyDetailScreen';
+import ListeningMainScreen from './components/ListeningMainScreen';
+import ListeningLessonDetailScreen from './components/ListeningLessonDetailScreen';
+import PronunciationPracticeScreen from './components/PronunciationPracticeScreen';
+import PronunciationResultScreen from './components/PronunciationResultScreen';
+import ChatbotScreen from './components/ChatbotScreen';
+import SupportMenuScreen from './components/SupportMenuScreen';
+import JLPTTestScreen from './components/JLPTTestScreen';
+import JLPTTestDetailScreen from './components/JLPTTestDetailScreen';
+import JLPTTestExamScreen from './components/JLPTTestExamScreen';
+import JLPTTestResultScreen from './components/JLPTTestResultScreen';
+import JLPTTestSummaryScreen from './components/JLPTTestSummaryScreen';
+import VocabularyMainScreen from './components/VocabularyMainScreen';
+import KanjiMainScreen from './components/KanjiMainScreen';
+import VocabularyFlashcardScreen from './components/VocabularyFlashcardScreen';
+import KanjiFlashcardScreen from './components/KanjiFlashcardScreen';
+import ReadingComprehensionScreen from './components/ReadingComprehensionScreen';
 
 const Stack = createStackNavigator();
 
@@ -50,7 +66,7 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Dictionary"
+          initialRouteName="VocabularyMain"
           screenOptions={{
             headerShown: false,
           }}
@@ -69,6 +85,22 @@ export default function App() {
           <Stack.Screen name="Study" component={StudyScreen} />
           <Stack.Screen name="StudyNotebook" component={StudyNotebookScreen} />
           <Stack.Screen name="StudyDetail" component={StudyDetailScreen} />
+          <Stack.Screen name="ListeningMain" component={ListeningMainScreen} />
+          <Stack.Screen name="ListeningLessonDetail" component={ListeningLessonDetailScreen} />
+          <Stack.Screen name="PronunciationPractice" component={PronunciationPracticeScreen} />
+          <Stack.Screen name="PronunciationResult" component={PronunciationResultScreen} />
+          <Stack.Screen name="Chatbot" component={ChatbotScreen} />
+          <Stack.Screen name="SupportMenu" component={SupportMenuScreen} />
+          <Stack.Screen name="JLPTTest" component={JLPTTestScreen} />
+          <Stack.Screen name="JLPTTestDetail" component={JLPTTestDetailScreen} />
+          <Stack.Screen name="JLPTTestExam" component={JLPTTestExamScreen} />
+          <Stack.Screen name="JLPTTestResult" component={JLPTTestResultScreen} />
+          <Stack.Screen name="JLPTTestSummary" component={JLPTTestSummaryScreen} />
+          <Stack.Screen name="VocabularyMain" component={VocabularyMainScreen} />
+          <Stack.Screen name="KanjiMain" component={KanjiMainScreen} />
+          <Stack.Screen name="VocabularyFlashcard" component={VocabularyFlashcardScreen} />
+          <Stack.Screen name="KanjiFlashcard" component={KanjiFlashcardScreen} />
+          <Stack.Screen name="ReadingComprehension" component={ReadingComprehensionScreen} />
         </Stack.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>

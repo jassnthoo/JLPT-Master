@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+// SafeAreaView removed - using CustomHeader with padding instead
 import { Ionicons } from '@expo/vector-icons';
 import BottomNavigation from './BottomNavigation';
 
@@ -16,16 +16,7 @@ export default function StudyScreen({ navigation }) {
 
   const handleTabPress = (tabId) => {
     setActiveTab(tabId);
-    switch (tabId) {
-      case 'vocabulary':
-        navigation.navigate('VocabularyDictionary');
-        break;
-      case 'profile':
-        navigation.navigate('Profile');
-        break;
-      default:
-        break;
-    }
+    // Navigation is now handled by BottomNavigation component
   };
 
   const toggleLanguage = () => {
@@ -98,7 +89,7 @@ export default function StudyScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerContent}>
@@ -153,7 +144,7 @@ export default function StudyScreen({ navigation }) {
 
       {/* Bottom Navigation */}
       <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
-    </SafeAreaView>
+    </View>
   );
 }
 

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -74,23 +75,11 @@ export default function TranslationDictionaryScreen({ navigation }) {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <View style={styles.logoContainer}>
-            <View style={styles.logo}>
-              {/* Torii Gate */}
-              <View style={styles.toriiContainer}>
-                <View style={styles.toriiTop} />
-                <View style={styles.toriiMiddle} />
-                <View style={styles.toriiPillars}>
-                  <View style={styles.toriiPillar} />
-                  <View style={styles.toriiPillar} />
-                </View>
-              </View>
-              {/* Cherry Blossom */}
-              <View style={styles.sakuraContainer}>
-                <Text style={styles.sakura}>🌸</Text>
-              </View>
-              {/* App Name */}
-              <Text style={styles.logoText}>JLPT Master</Text>
-            </View>
+            <Image 
+              source={require('../logo.png')} 
+              style={styles.logoImage}
+              resizeMode="contain"
+            />
           </View>
           <View style={styles.headerIcons}>
             <TouchableOpacity style={styles.iconButton} onPress={toggleLanguage}>
@@ -106,7 +95,10 @@ export default function TranslationDictionaryScreen({ navigation }) {
                 </View>
               )}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity 
+              style={styles.iconButton}
+              onPress={() => navigation.navigate('Login')}
+            >
               <Ionicons name="person-circle-outline" size={28} color="#333" />
             </TouchableOpacity>
           </View>
@@ -244,195 +236,150 @@ export default function TranslationDictionaryScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F5F5',
+    backgroundColor: '#F8F9FA',
   },
   header: {
-    backgroundColor: '#E8F5F5',
-    paddingHorizontal: 20,
-    paddingTop: 10,
+    backgroundColor: '#D4F4E7',
+    paddingTop: 50,
     paddingBottom: 20,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   headerContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 15,
   },
   logoContainer: {
-    flex: 1,
+    alignItems: 'flex-start',
   },
-  logo: {
-    width: 120,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  toriiContainer: {
-    position: 'absolute',
-    top: -5,
-    width: 60,
-    height: 25,
-  },
-  toriiTop: {
-    width: 60,
-    height: 4,
-    backgroundColor: '#FF6B9D',
-    borderRadius: 2,
-    marginBottom: 2,
-  },
-  toriiMiddle: {
-    width: 50,
-    height: 3,
-    backgroundColor: '#FF6B9D',
-    borderRadius: 1.5,
-    alignSelf: 'center',
-    marginBottom: 2,
-  },
-  toriiPillars: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 8,
-  },
-  toriiPillar: {
-    width: 3,
-    height: 15,
-    backgroundColor: '#FF6B9D',
-    borderRadius: 1.5,
-  },
-  sakuraContainer: {
-    position: 'absolute',
-    top: 5,
-    right: 10,
-  },
-  sakura: {
-    fontSize: 12,
-  },
-  logoText: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#FF6B9D',
-    marginTop: 18,
+  logoImage: {
+    width: 80,
+    height: 60,
   },
   headerIcons: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 15,
   },
   iconButton: {
-    marginLeft: 15,
+    padding: 5,
   },
   vietnamFlag: {
     width: 28,
     height: 20,
-    borderRadius: 3,
-    overflow: 'hidden',
-    position: 'relative',
-    justifyContent: 'center',
+    backgroundColor: '#DA020E',
+    borderRadius: 2,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   flagRed: {
-    position: 'absolute',
     width: '100%',
     height: '100%',
     backgroundColor: '#DA020E',
+    borderRadius: 2,
   },
   flagStar: {
-    fontSize: 12,
+    position: 'absolute',
     color: '#FFFF00',
-    textAlign: 'center',
+    fontSize: 12,
   },
   japanFlag: {
     width: 28,
     height: 20,
-    borderRadius: 3,
-    overflow: 'hidden',
-    position: 'relative',
-    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 2,
     alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   flagWhite: {
-    position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    backgroundColor: 'white',
+    borderRadius: 2,
   },
   flagRedCircle: {
+    position: 'absolute',
     width: 12,
     height: 12,
-    borderRadius: 6,
     backgroundColor: '#BC002D',
+    borderRadius: 6,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
+    textAlign: 'center',
     marginBottom: 15,
   },
   searchContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 15,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    alignItems: 'flex-start',
+    borderRadius: 25,
+    paddingHorizontal: 15,
     marginBottom: 15,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
-    minHeight: 80,
   },
   searchInput: {
     flex: 1,
+    paddingVertical: 12,
     fontSize: 16,
     color: '#333',
-    textAlignVertical: 'top',
   },
   searchButton: {
     padding: 5,
     marginTop: 5,
   },
   categoryScrollContainer: {
-    backgroundColor: 'white',
-    borderRadius: 25,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   categoryContainer: {
-    flexDirection: 'row',
-    padding: 4,
-    alignItems: 'center',
+    paddingHorizontal: 0,
   },
   categoryTab: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 36,
-    marginRight: 4,
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
   activeCategoryTab: {
-    backgroundColor: '#4ECDC4',
+    backgroundColor: 'white',
+    borderColor: '#4ECDC4',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 3,
   },
   categoryText: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#666',
     fontWeight: '500',
-    textAlign: 'center',
   },
   activeCategoryText: {
-    color: 'white',
+    color: '#4ECDC4',
     fontWeight: 'bold',
   },
   content: {
     flex: 1,
-    backgroundColor: 'white',
+    paddingHorizontal: 20,
   },
   languageContainer: {
     padding: 20,

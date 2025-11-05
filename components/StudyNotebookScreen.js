@@ -15,16 +15,7 @@ export default function StudyNotebookScreen({ navigation }) {
 
   const handleTabPress = (tabId) => {
     setActiveTab(tabId);
-    switch (tabId) {
-      case 'vocabulary':
-        navigation.navigate('VocabularyDictionary');
-        break;
-      case 'profile':
-        navigation.navigate('Profile');
-        break;
-      default:
-        break;
-    }
+    // Navigation is now handled by BottomNavigation component
   };
 
   const studyCategories = [

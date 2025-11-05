@@ -6,9 +6,9 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNavigation from './BottomNavigation';
+import CustomHeader from './CustomHeader';
 
 export default function ProfileScreen({ navigation }) {
   const [activeTab, setActiveTab] = useState('profile');
@@ -16,16 +16,7 @@ export default function ProfileScreen({ navigation }) {
 
   const handleTabPress = (tabId) => {
     setActiveTab(tabId);
-    switch (tabId) {
-      case 'vocabulary':
-        navigation.navigate('VocabularyDictionary');
-        break;
-      case 'study':
-        navigation.navigate('Study');
-        break;
-      default:
-        break;
-    }
+    // Navigation is now handled by BottomNavigation component
   };
 
   const toggleLanguage = () => {
@@ -42,17 +33,8 @@ export default function ProfileScreen({ navigation }) {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="chevron-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Tài khoản người học</Text>
-      </View>
+    <View style={styles.container}>
+      <CustomHeader navigation={navigation} showBackButton={false} title="Cá nhân" showLogo={false} />
 
       <ScrollView style={styles.content}>
         {/* User Info */}
@@ -114,7 +96,7 @@ export default function ProfileScreen({ navigation }) {
 
       {/* Bottom Navigation */}
       <BottomNavigation activeTab={activeTab} onTabPress={handleTabPress} />
-    </SafeAreaView>
+    </View>
   );
 }
 

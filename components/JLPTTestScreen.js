@@ -4,35 +4,27 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNavigation from './BottomNavigation';
+import CustomHeader from './CustomHeader';
+import { PastelColors } from '../constants/colors';
 
 export default function JLPTTestScreen({ navigation }) {
   const [activeTab, setActiveTab] = useState('practice');
 
   const jlptLevels = [
-    { level: 'N5', color: '#FFE4E6', textColor: '#FF6B6B' },
-    { level: 'N4', color: '#FFF4E6', textColor: '#FF8C42' },
-    { level: 'N3', color: '#E8F5E8', textColor: '#4ECDC4' },
-    { level: 'N2', color: '#E6F3FF', textColor: '#4A90E2' },
-    { level: 'N1', color: '#F0E6FF', textColor: '#9B59B6' },
+    { level: 'N5', color: PastelColors.jlptN5, textColor: PastelColors.textPrimary },
+    { level: 'N4', color: PastelColors.jlptN4, textColor: PastelColors.textPrimary },
+    { level: 'N3', color: PastelColors.jlptN3, textColor: PastelColors.textPrimary },
+    { level: 'N2', color: PastelColors.jlptN2, textColor: PastelColors.textPrimary },
+    { level: 'N1', color: PastelColors.jlptN1, textColor: PastelColors.textPrimary },
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="chevron-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Thi thử JLPT</Text>
-        <View style={styles.placeholder} />
-      </View>
+    <View style={styles.container}>
+      <CustomHeader navigation={navigation} showBackButton={false} title="Luyện thi JLPT" showLogo={false} />
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.titleContainer}>
@@ -59,7 +51,7 @@ export default function JLPTTestScreen({ navigation }) {
         activeTab={activeTab} 
         onTabPress={setActiveTab}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

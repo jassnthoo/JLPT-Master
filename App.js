@@ -18,6 +18,7 @@ import KanjiDictionaryScreen from './components/KanjiDictionaryScreen';
 import TranslationDictionaryScreen from './components/TranslationDictionaryScreen';
 import ProfileScreen from './components/ProfileScreen';
 import StudyScreen from './components/StudyScreen';
+import StudyMainScreen from './components/StudyMainScreen';
 import StudyNotebookScreen from './components/StudyNotebookScreen';
 import StudyDetailScreen from './components/StudyDetailScreen';
 import ListeningMainScreen from './components/ListeningMainScreen';
@@ -32,6 +33,13 @@ import JLPTTestExamScreen from './components/JLPTTestExamScreen';
 import JLPTTestResultScreen from './components/JLPTTestResultScreen';
 import JLPTTestSummaryScreen from './components/JLPTTestSummaryScreen';
 import VocabularyMainScreen from './components/VocabularyMainScreen';
+import VocabularyLearningScreen from './components/VocabularyLearningScreen';
+import VocabularyUnitDetailScreen from './components/VocabularyUnitDetailScreen';
+import VocabularyPracticeScreen from './components/VocabularyPracticeScreen';
+import KanjiLearningScreen from './components/KanjiLearningScreen';
+import GrammarLearningScreen from './components/GrammarLearningScreen';
+import ReadingLearningScreen from './components/ReadingLearningScreen';
+import ListeningLearningScreen from './components/ListeningLearningScreen';
 import KanjiMainScreen from './components/KanjiMainScreen';
 import VocabularyFlashcardScreen from './components/VocabularyFlashcardScreen';
 import KanjiFlashcardScreen from './components/KanjiFlashcardScreen';
@@ -66,7 +74,7 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="VocabularyMain"
+          initialRouteName="StudyMain"
           screenOptions={{
             headerShown: false,
           }}
@@ -83,6 +91,7 @@ export default function App() {
           <Stack.Screen name="TranslationDictionary" component={TranslationDictionaryScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Study" component={StudyScreen} />
+          <Stack.Screen name="StudyMain" component={StudyMainScreen} />
           <Stack.Screen name="StudyNotebook" component={StudyNotebookScreen} />
           <Stack.Screen name="StudyDetail" component={StudyDetailScreen} />
           <Stack.Screen name="ListeningMain" component={ListeningMainScreen} />
@@ -97,6 +106,13 @@ export default function App() {
           <Stack.Screen name="JLPTTestResult" component={JLPTTestResultScreen} />
           <Stack.Screen name="JLPTTestSummary" component={JLPTTestSummaryScreen} />
           <Stack.Screen name="VocabularyMain" component={VocabularyMainScreen} />
+          <Stack.Screen name="VocabularyLearning" component={VocabularyLearningScreen} />
+          <Stack.Screen name="VocabularyUnitDetail" component={VocabularyUnitDetailScreen} />
+          <Stack.Screen name="VocabularyPractice" component={VocabularyPracticeScreen} />
+          <Stack.Screen name="KanjiLearning" component={KanjiLearningScreen} />
+          <Stack.Screen name="GrammarLearning" component={GrammarLearningScreen} />
+          <Stack.Screen name="ReadingLearning" component={ReadingLearningScreen} />
+          <Stack.Screen name="ListeningLearning" component={ListeningLearningScreen} />
           <Stack.Screen name="KanjiMain" component={KanjiMainScreen} />
           <Stack.Screen name="VocabularyFlashcard" component={VocabularyFlashcardScreen} />
           <Stack.Screen name="KanjiFlashcard" component={KanjiFlashcardScreen} />

@@ -84,7 +84,7 @@ export default function VocabularyFlashcardScreen({ navigation, route }) {
         <Text style={styles.headerTitle}>
           {lesson?.title || 'Unit 01 - Bài 1'}
         </Text>
-        <View style={styles.placeholder} />
+        <View style={styles.headerSpacer} />
       </View>
 
       <View style={styles.progressContainer}>
@@ -98,14 +98,6 @@ export default function VocabularyFlashcardScreen({ navigation, route }) {
 
       <View style={styles.cardContainer}>
         <View style={styles.flashcard}>
-          <View style={styles.cardActions}>
-            <TouchableOpacity style={styles.actionButton}>
-              <Ionicons name="volume-high" size={24} color="#FFB6C1" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
-              <Ionicons name="heart-outline" size={24} color="#FFB6C1" />
-            </TouchableOpacity>
-          </View>
 
           {!showMeaning ? (
             <View style={styles.cardContent}>
@@ -188,7 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 15,
-    backgroundColor: '#C8E6C9',
+    backgroundColor: '#D4F4E7',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
@@ -200,7 +192,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
-  placeholder: {
+  headerSpacer: {
     width: 34,
   },
   progressContainer: {
@@ -257,27 +249,11 @@ const styles = StyleSheet.create({
     elevation: 8,
     position: 'relative',
   },
-  cardActions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    right: 20,
-  },
-  actionButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFF0F5',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   cardContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   readingText: {
     fontSize: 20,

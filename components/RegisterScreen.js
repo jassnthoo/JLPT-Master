@@ -38,12 +38,6 @@ export default function RegisterScreen({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          {/* Background Circles */}
-          <View style={styles.backgroundCircles}>
-            <View style={[styles.circle, styles.circle1]} />
-            <View style={[styles.circle, styles.circle2]} />
-            <View style={[styles.circle, styles.circle3]} />
-          </View>
 
           {/* Content */}
           <View style={styles.content}>
@@ -167,38 +161,6 @@ const styles = StyleSheet.create({
     color: '#FF9FAD',
     fontSize: 16,
     marginLeft: 5,
-  },
-  backgroundCircles: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 300,
-  },
-  circle: {
-    position: 'absolute',
-    borderRadius: 1000,
-  },
-  circle1: {
-    width: 200,
-    height: 200,
-    backgroundColor: '#FFE4E6',
-    top: -50,
-    right: -50,
-  },
-  circle2: {
-    width: 150,
-    height: 150,
-    backgroundColor: '#E8F5E8',
-    top: 50,
-    left: -30,
-  },
-  circle3: {
-    width: 100,
-    height: 100,
-    backgroundColor: '#E6F3FF',
-    top: 20,
-    right: 50,
   },
   content: {
     flex: 1,

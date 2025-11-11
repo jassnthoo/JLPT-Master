@@ -4,56 +4,46 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
+  Image,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNavigation from './BottomNavigation';
+import Header from './Header';
 
 export default function SupportMenuScreen({ navigation }) {
   const [activeTab, setActiveTab] = useState('support');
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="chevron-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Hỗ trợ</Text>
-        <View style={styles.placeholder} />
-      </View>
+      <Header title="Hỗ trợ" navigation={navigation} />
 
       <View style={styles.content}>
         <TouchableOpacity 
-          style={styles.menuItem}
+          style={styles.menuItemChatbot}
           onPress={() => navigation.navigate('Chatbot')}
         >
-          <View style={styles.menuIcon}>
-            <Ionicons name="chatbubble-ellipses" size={40} color="#4ECDC4" />
-          </View>
           <View style={styles.menuContent}>
             <Text style={styles.menuTitle}>Chatbot AI</Text>
-            <Text style={styles.menuSubtitle}>Trò chuyện với AI</Text>
+            <Text style={styles.menuSubtitle}>Hỏi đáp với chatbot bằng văn bản hoặc hình ảnh</Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#666" />
+          <View style={styles.menuIcon}>
+            <Image source={require('../assets/chatbotlogo.png')} />
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity 
-          style={styles.menuItem}
+          style={styles.menuItemPronunciationPractice}
           onPress={() => navigation.navigate('PronunciationPractice', { mode: 'text' })}
         >
-          <View style={styles.menuIcon}>
-            <Ionicons name="mic" size={40} color="#FFB6C1" />
-          </View>
           <View style={styles.menuContent}>
             <Text style={styles.menuTitle}>Luyện phát âm</Text>
             <Text style={styles.menuSubtitle}>
-              Cải thiện phát âm tiếng Nhật của bạn với công nghệ AI tiên tiến
+              Hỗ trợ luyện phát âm đoạn văn bằng cách chuyển văn bản hoặc hình ảnh sang âm thanh
             </Text>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#666" />
+          <View style={styles.menuIcon}>
+            <Image source={require('../assets/shadowingpracticelogo.png')} />
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -68,37 +58,32 @@ export default function SupportMenuScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#C8E6C9',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  backButton: {
-    padding: 5,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  placeholder: {
-    width: 34,
+    backgroundColor: '#FFF9F5',
   },
   content: {
     flex: 1,
     padding: 20,
   },
-  menuItem: {
+  menuItemChatbot: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#C5B9E8',
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  menuItemPronunciationPractice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF4A3',
     padding: 20,
     borderRadius: 15,
     marginBottom: 15,
@@ -112,26 +97,28 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   menuIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#F8F9FA',
+    width: 96,
+    height: 96,
+    borderRadius: 60,
+    backgroundColor: '#F5ECFF',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
+    marginHorizontal: 10,
   },
   menuContent: {
     flex: 1,
   },
   menuTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#343232',
     marginBottom: 5,
   },
   menuSubtitle: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 12,
+    color: '#7A7A7A',
     lineHeight: 20,
+    textAlign: "justify",
+    marginRight: 10,
   },
 });

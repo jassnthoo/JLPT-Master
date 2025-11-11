@@ -4,17 +4,16 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import BottomNavigation from './BottomNavigation';
+import Header from './Header';
 
 export default function ChatbotScreen({ navigation }) {
-  const [activeTab, setActiveTab] = useState('support');
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -24,6 +23,17 @@ export default function ChatbotScreen({ navigation }) {
     }
   ]);
   const [inputText, setInputText] = useState('');
+
+  const suggestions = [
+        "Phân biệt giúp tôi 'は' (wa) và 'が' (ga)",
+        "Cấu trúc '~たいです'",
+        "Lộ trình học tiếng Nhật từ con số 0",
+        "Học Kanji như thế nào để dễ nhớ?",
+    ];
+
+  const handleSuggestionPress = (text) => {
+      setInputText(text);  
+  };
 
   const sendMessage = () => {
     if (inputText.trim()) {
@@ -50,20 +60,10 @@ export default function ChatbotScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="chevron-back" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Chatbot hỏi đáp</Text>
-        <View style={styles.placeholder} />
-      </View>
+      <Header title="Chat bot hỏi đáp" navigation={navigation}/>
 
       <Text style={styles.subtitle}>
-        Nhật những không biết nên hỏi từ đâu.{'\n'}
-        Bạn có thể cho tôi biết thuyền không?
+        Bạn có thắc mắc cần giải đáp? Hãy chat với tôi nhé.
       </Text>
 
       <ScrollView style={styles.messagesContainer} showsVerticalScrollIndicator={false}>
@@ -91,7 +91,23 @@ export default function ChatbotScreen({ navigation }) {
           </View>
         ))}
       </ScrollView>
-
+      <View style={styles.suggestionWrapper}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.suggestionContainer}
+        >
+          {suggestions.map((item, index) => (
+              <TouchableOpacity
+                  key={index}
+                  style={styles.suggestionChip}
+                  onPress={() => handleSuggestionPress(item)}
+              >
+                  <Text style={styles.suggestionText}>{item}</Text>
+              </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>   
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.inputContainer}
@@ -115,11 +131,6 @@ export default function ChatbotScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-
-      <BottomNavigation 
-        activeTab={activeTab} 
-        onTabPress={setActiveTab}
-      />
     </SafeAreaView>
   );
 }
@@ -127,28 +138,7 @@ export default function ChatbotScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#C8E6C9',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  backButton: {
-    padding: 5,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  placeholder: {
-    width: 34,
+    backgroundColor: '#FFF9F5',
   },
   subtitle: {
     fontSize: 14,
@@ -172,7 +162,6 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     justifyContent: 'flex-end',
-    flexDirection: 'row-reverse',
   },
   botAvatar: {
     width: 32,
@@ -242,4 +231,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  suggestionContainer: {
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        gap: 10,
+        height: '54'
+    },
+    suggestionChip: {
+        backgroundColor: "#B5EAD7",
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        borderRadius: 20,
+    },
+    suggestionText: {
+        fontSize: 14,
+        color: "#333",
+        fontWeight: "500",
+    },
 });

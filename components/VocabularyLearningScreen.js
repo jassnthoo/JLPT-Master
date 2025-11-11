@@ -93,7 +93,7 @@ export default function VocabularyLearningScreen({ navigation }) {
 
   const handleUnitPress = (unit) => {
     // Navigate to unit detail or learning screen
-    navigation.navigate('VocabularyUnitDetail', { unit });
+    navigation.navigate('VocabularyFlashcard', { unit });
   };
 
   return (

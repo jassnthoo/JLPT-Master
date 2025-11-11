@@ -18,6 +18,7 @@ export default function ReadingLearningScreen({ navigation }) {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.comingSoon}>
           <Text style={styles.title}>Học Đọc hiểu</Text>
+          
           <Text style={styles.subtitle}>Tính năng đang được phát triển...</Text>
         </View>
       </ScrollView>
